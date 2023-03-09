@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.88.1">
+        <title>Login</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="css/signin.css" rel="stylesheet">
+    </head>
+
+    <body class="text-center">      
+        <main class="form-signin text-center shadow-lg p-3 mt-5">
+            <form id="formLogin" action="/login" method="POST">
+                <img class="mb-4" src="https://w7.pngwing.com/pngs/560/655/png-transparent-utn-hd-logo.png" alt="" width="72" height="57">
+                <h1 class="h3 mb-3 fw-normal">Login</h1>
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="user" name="user" placeholder="Usuario" required>
+                    <label for="floatingInput">Usuario</label>
+                </div>
+                <div class="form-floating mt-1">
+                    <input type="password" class="form-control" id="pass" name="pass" placeholder="Password" required>
+                    <label for="floatingPassword">Contraseña</label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-success" type="submit">Ingresar</button>
+            </form>
+            <br>
+            <a href="/register" class="w-100 btn btn-lg btn-primary" type="button" >Registrarse</a>
+        </main>
+        
+        
+        <% if (alert) { %>
+            <script>
+                Swal.fire({
+                    title:"<% alertTitle %>",
+                    text:"<% alertMessage %>",
+                    icon:"<% alertIcon %>",
+                    title:"<% alertTitle %>",
+                    showConfirmButton: <%= showConfirmButton %>,
+                    timer:<%= timer %>
+                }).then(()=>{
+                    window.location = "/ <%= ruta %>"
+                })
+            </script>
+        <% } %>
+    </body>
+</html>

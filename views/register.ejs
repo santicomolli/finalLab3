@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.88.1">
+        <title>Registro</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">    
+        <link href="css/signin.css" rel="stylesheet">
+    </head>
+    <body class="text-center">      
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 shadow-lg p-3 mb-5">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            Registrate
+                        </div>
+                        <div class="card-body text-primary">
+                            <form action="/register" method="POST">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nombre Completo</label>
+                                    <input type="text" id="name" name="name" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="user" class="form-label">Cuenta de Usuario</label>
+                                    <input type="text" id="user" name="user" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pass" class="form-label">Contraseña</label>
+                                    <input type="password" id="pass" name="pass" class="form-control">
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent border-primary">
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <a href="/login" type="button" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
