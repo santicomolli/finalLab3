@@ -29,26 +29,38 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     
     try {
-        //agarro los nombres del form de login
+        //agarro los del form de login
         const user = req.body.user 
         const pass = req.body.pass 
         console.log(user+"."+pass)
-
-        if (!user || !pass)//si estan vacios tirame error
-        {
+        
+        //si estan vacios tira error
+        if (!user || !pass){
             res.render("login", {
                 alert:true,
                 alertTitle:"Advertencia",
-                alertMessage: "Usuario o contraseña incorrectos",
+                alertMessage: "Debe llenar ambos campos",
                 alertIcon:"info",
                 showConfirmButton:true,
-                timer:false,
-                ruta:"login"
+                timer:3000,
             })
-        }else{
-            conexion.query("SELECT * FROM users WHERE user = ?", [user], async(error, results) => {
 
-                if (results.lenght == 0 || !(await bcryptjs.compare(pass, results[0].pass))) 
+        }else{
+            
+            conexion.query("SELECT * FROM users WHERE user = ?", [user], async(error, results) => {
+                if (results.length == 0) 
+                {
+                    res.render("login", {
+                        alert:true,
+                        alertTitle:"Advertencia",
+                        alertMessage: "Usuario no existe",
+                        alertIcon:"info",   
+                        showConfirmButton:true,
+                        timer:3000
+                    })
+
+                }
+                else if(results.length == 0 || !(await bcryptjs.compare(pass, results[0].pass))) 
                 {
                     res.render("login", {
                         alert:true,
@@ -56,25 +68,26 @@ exports.login = async (req, res) => {
                         alertMessage: "Usuario o contraseña incorrectos",
                         alertIcon:"info",
                         showConfirmButton:true,
-                        timer:false,
-                        ruta:"login"
+                        timer:3000
                     })
-                }else{
-                    
-                    //inicio de sesion OK
-                    const id = results[0].id
-                    const token = jwt.sign({id:id}, process.env.JWT_SECRETO,{
-                        expiresIn: process.env.JWT_TIEMPO_EXPIRA
-                    })
-                    
-                    console.log("TOKEN:" + token+ "para el usuario" + user)
-                    
-                    const cookiesOptions = {
-                        expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-                        httpOnly:true
-                    }
-                    res.cookie("jwt", token, cookiesOptions)
-                    res.redirect("/")
+                }
+                else
+                {                       
+                        //inicio de sesion OK
+                        const id = results[0].id
+                        const token = jwt.sign({id:id}, process.env.JWT_SECRETO,{
+                            expiresIn: process.env.JWT_TIEMPO_EXPIRA
+                        })
+                        
+                        console.log("TOKEN:" + token+ "para el usuario" + user)
+                        
+                        const cookiesOptions = {
+                            expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
+                            httpOnly:true
+                        }
+                        
+                        res.cookie("jwt", token, cookiesOptions)
+                        res.redirect("/")
                 }
             })
         }
